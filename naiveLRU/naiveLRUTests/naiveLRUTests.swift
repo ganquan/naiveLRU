@@ -11,7 +11,7 @@ import XCTest
 class naiveLRUTests: XCTestCase {
     
     func testLRU() {
-        let cache = NaiveLRUCache<Int, Int>(cache_size: 3)
+        let cache = NaiveLRUCache<Int, Int>(capacity: 3)
         cache.setValue(0, forKey: 0)
         cache.setValue(1, forKey: 1)
         cache.setValue(2, forKey: 2)
@@ -38,7 +38,7 @@ class naiveLRUTests: XCTestCase {
     
 
     func testCacheSizeLimit() {
-        let cache = NaiveLRUCache<Int, Int>(cache_size: 2)
+        let cache = NaiveLRUCache<Int, Int>(capacity: 2)
         cache.setValue(0, forKey: 0)
         XCTAssertNotNil(cache.value(forKey: 0))
         
@@ -50,14 +50,6 @@ class naiveLRUTests: XCTestCase {
         XCTAssertEqual(cache.count, 2)
     }
     
-    func testAdjustCacheSizeLimit() {
-        let cache = NaiveLRUCache<Int, Int>(cache_size: 2)
-        cache.setValue(0, forKey: 0)
-        cache.setValue(1, forKey: 1)
-        cache.max_cache_size = 1
-        XCTAssertNil(cache.value(forKey: 0))
-        XCTAssertEqual(cache.count, 1)
-    }
     
     func testReplaceValue() {
         let cache = NaiveLRUCache<Int, Int>()
@@ -73,16 +65,10 @@ class naiveLRUTests: XCTestCase {
     }
     
     func testRemoveValue() {
-        let cache = NaiveLRUCache<Int, Int>(cache_size: 2)
+        let cache = NaiveLRUCache<Int, Int>(capacity: 2)
         cache.setValue(0, forKey: 0)
         cache.setValue(1, forKey: 1)
         XCTAssertEqual(cache.removeValue(forKey: 0), true)
         XCTAssertEqual(cache.count, 1)
-        XCTAssertEqual(cache.removeValue(forKey: 0), false)
-        cache.setValue(nil, forKey: 1)
-        XCTAssert(cache.isEmpty)
     }
-    
-    
-
 }

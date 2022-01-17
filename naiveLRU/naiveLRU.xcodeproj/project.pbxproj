@@ -16,6 +16,18 @@
 		382A0292278FCCD1004A92B7 /* naiveLRUTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382A0291278FCCD1004A92B7 /* naiveLRUTests.swift */; };
 		382A02AC278FCCF2004A92B7 /* NaiveLRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382A02AB278FCCF2004A92B7 /* NaiveLRUCache.swift */; };
 		382A02AD278FCCF2004A92B7 /* NaiveLRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382A02AB278FCCF2004A92B7 /* NaiveLRUCache.swift */; };
+		382A02B527901E7E004A92B7 /* NaiveLFUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382A02B427901E7E004A92B7 /* NaiveLFUCache.swift */; };
+		382A02B627901E7E004A92B7 /* NaiveLFUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382A02B427901E7E004A92B7 /* NaiveLFUCache.swift */; };
+		382A02BB27904950004A92B7 /* naiveLFUTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382A02BA27904950004A92B7 /* naiveLFUTests.swift */; };
+		382A02BD27906369004A92B7 /* ListProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382A02BC27906369004A92B7 /* ListProtocol.swift */; };
+		382A02BE27906369004A92B7 /* ListProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382A02BC27906369004A92B7 /* ListProtocol.swift */; };
+		382A02C027906420004A92B7 /* ListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382A02BF27906420004A92B7 /* ListTests.swift */; };
+		382A02CB27950707004A92B7 /* CacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382A02CA27950707004A92B7 /* CacheProtocol.swift */; };
+		382A02CC27950707004A92B7 /* CacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382A02CA27950707004A92B7 /* CacheProtocol.swift */; };
+		382A02CF2795078C004A92B7 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382A02CE2795078C004A92B7 /* List.swift */; };
+		382A02D02795078C004A92B7 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382A02CE2795078C004A92B7 /* List.swift */; };
+		382A02D2279507AE004A92B7 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382A02D1279507AE004A92B7 /* Cache.swift */; };
+		382A02D3279507AE004A92B7 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382A02D1279507AE004A92B7 /* Cache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +52,13 @@
 		382A028D278FCCD1004A92B7 /* naiveLRUTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = naiveLRUTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		382A0291278FCCD1004A92B7 /* naiveLRUTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = naiveLRUTests.swift; sourceTree = "<group>"; };
 		382A02AB278FCCF2004A92B7 /* NaiveLRUCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaiveLRUCache.swift; sourceTree = "<group>"; };
+		382A02B427901E7E004A92B7 /* NaiveLFUCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaiveLFUCache.swift; sourceTree = "<group>"; };
+		382A02BA27904950004A92B7 /* naiveLFUTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = naiveLFUTests.swift; sourceTree = "<group>"; };
+		382A02BC27906369004A92B7 /* ListProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListProtocol.swift; sourceTree = "<group>"; };
+		382A02BF27906420004A92B7 /* ListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTests.swift; sourceTree = "<group>"; };
+		382A02CA27950707004A92B7 /* CacheProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheProtocol.swift; sourceTree = "<group>"; };
+		382A02CE2795078C004A92B7 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
+		382A02D1279507AE004A92B7 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +116,8 @@
 			isa = PBXGroup;
 			children = (
 				382A0291278FCCD1004A92B7 /* naiveLRUTests.swift */,
+				382A02BA27904950004A92B7 /* naiveLFUTests.swift */,
+				382A02BF27906420004A92B7 /* ListTests.swift */,
 			);
 			path = naiveLRUTests;
 			sourceTree = "<group>";
@@ -104,9 +125,30 @@
 		382A02AA278FCCD8004A92B7 /* naiveLRU */ = {
 			isa = PBXGroup;
 			children = (
+				382A02C9279501D4004A92B7 /* Protocols */,
+				382A02CD2795077A004A92B7 /* BaseClass */,
+				382A02B427901E7E004A92B7 /* NaiveLFUCache.swift */,
 				382A02AB278FCCF2004A92B7 /* NaiveLRUCache.swift */,
 			);
 			path = naiveLRU;
+			sourceTree = "<group>";
+		};
+		382A02C9279501D4004A92B7 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				382A02BC27906369004A92B7 /* ListProtocol.swift */,
+				382A02CA27950707004A92B7 /* CacheProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		382A02CD2795077A004A92B7 /* BaseClass */ = {
+			isa = PBXGroup;
+			children = (
+				382A02CE2795078C004A92B7 /* List.swift */,
+				382A02D1279507AE004A92B7 /* Cache.swift */,
+			);
+			path = BaseClass;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,10 +252,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				382A02B527901E7E004A92B7 /* NaiveLFUCache.swift in Sources */,
 				382A02AC278FCCF2004A92B7 /* NaiveLRUCache.swift in Sources */,
 				382A027F278FCCD0004A92B7 /* ViewController.swift in Sources */,
 				382A027B278FCCD0004A92B7 /* AppDelegate.swift in Sources */,
 				382A027D278FCCD0004A92B7 /* SceneDelegate.swift in Sources */,
+				382A02CB27950707004A92B7 /* CacheProtocol.swift in Sources */,
+				382A02D2279507AE004A92B7 /* Cache.swift in Sources */,
+				382A02BD27906369004A92B7 /* ListProtocol.swift in Sources */,
+				382A02CF2795078C004A92B7 /* List.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,8 +268,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				382A02BB27904950004A92B7 /* naiveLFUTests.swift in Sources */,
 				382A02AD278FCCF2004A92B7 /* NaiveLRUCache.swift in Sources */,
+				382A02CC27950707004A92B7 /* CacheProtocol.swift in Sources */,
+				382A02D3279507AE004A92B7 /* Cache.swift in Sources */,
 				382A0292278FCCD1004A92B7 /* naiveLRUTests.swift in Sources */,
+				382A02D02795078C004A92B7 /* List.swift in Sources */,
+				382A02C027906420004A92B7 /* ListTests.swift in Sources */,
+				382A02BE27906369004A92B7 /* ListProtocol.swift in Sources */,
+				382A02B627901E7E004A92B7 /* NaiveLFUCache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,50 +28,53 @@ import Foundation
 
 // 站在考察候选人的立场来看，如果候选人可以把LRU理解和实现都搞清楚，基本上可以认为数据结构基础是没有问题的
 
-class NaiveLRUCache<NaiveLRUCacheKey: Hashable, NaiveLRUCacheValue> {
+class NaiveLRUCache<NaiveLRUCacheKey: Hashable, NaiveLRUCacheValue>: BaseCache {
     
-    private var map: [NaiveLRUCacheKey: DoubleLinkedListNode] = [:]
-    private var head: DoubleLinkedListNode?
-    private var tail: DoubleLinkedListNode?
+    typealias ValueNodeType = CacheListNode<NaiveLRUCacheKey, NaiveLRUCacheValue>
     
-    public var max_cache_size: UInt {
-        didSet { clean() }
-    }
-    private var lock: NSLock
+    private var valueMap: [NaiveLRUCacheKey: ValueNodeType] = [:]
+    private var list: DLinkedList<ValueNodeType>
+
     
     init() {
-        max_cache_size = 5
-        lock = NSLock()
+        
+        let default_capacity: Int = 5
+        list = DLinkedList<ValueNodeType>()
+        
+        super.init(default_capacity)
     }
     
-    init(cache_size: UInt) {
-        max_cache_size = cache_size
+    init(capacity: Int) {
         
-        lock = NSLock()
+        list = DLinkedList<ValueNodeType>()
+        super.init(capacity)
     }
     
-    public func setValue(_ value: NaiveLRUCacheValue?, forKey key: NaiveLRUCacheKey) {
+    var count: Int {
+        return valueMap.count
+    }
+    
+    public func setValue(_ value: NaiveLRUCacheValue, forKey key: NaiveLRUCacheKey) {
         
-        guard value != nil else {
-            removeValue(forKey: key)
+        if cache_size <= 0 {
             return
         }
         
         lock.lock()
         
-        if let node = map[key] {
+        if let node = valueMap[key] {
             //有缓存，更新value
             node.val = value
             
             //移除旧缓存，放到最新
-            removeNode(node)
-            appendNode(node)
+            list.removeNode(node)
+            list.appendNode(node)
             
         } else {
             //无缓存，增加node
-            let n = DoubleLinkedListNode(value, key)
-            map[key] = n
-            appendNode(n)
+            let n = CacheListNode<NaiveLRUCacheKey, NaiveLRUCacheValue>(key, value)
+            valueMap[key] = n
+            list.appendNode(n)
         }
         
         lock.unlock()
@@ -85,11 +88,11 @@ class NaiveLRUCache<NaiveLRUCacheKey: Hashable, NaiveLRUCacheValue> {
         lock.lock()
         defer { lock.unlock() }
         
-        if let v:DoubleLinkedListNode = map[key] {
+        if let v:CacheListNode = valueMap[key] {
             
             //移除缓存然后再放到最新
-            removeNode(v)
-            appendNode(v)
+            list.removeNode(v)
+            list.appendNode(v)
             
             return v.val
         }
@@ -102,102 +105,26 @@ class NaiveLRUCache<NaiveLRUCacheKey: Hashable, NaiveLRUCacheValue> {
         lock.lock()
         defer { lock.unlock() }
         
-        guard let v:DoubleLinkedListNode = map.removeValue(forKey: key) else {
+        guard let v:CacheListNode = valueMap.removeValue(forKey: key) else {
             
             return false
         }
         
-        removeNode(v)
+        list.removeNode(v)
         
         return true
         
     }
     
-    public func clearAllCache() {
+    private func clean() {
         
         lock.lock()
         defer { lock.unlock() }
         
-        map.removeAll()
-        head = nil
-        tail = nil
-    }
-}
-
-
-extension NaiveLRUCache {
-    
-    var count: UInt {
-        return UInt(map.count)
-    }
-    
-    var isEmpty: Bool {
-        return map.isEmpty
-    }
-}
-
-extension NaiveLRUCache {
-    class DoubleLinkedListNode {
-        
-        var val: NaiveLRUCacheValue?
-        var key: NaiveLRUCacheKey
-        weak var prev: DoubleLinkedListNode?
-        weak var next: DoubleLinkedListNode?
-        
-        init(_ v: NaiveLRUCacheValue?, _ k: NaiveLRUCacheKey) {
-            val = v
-            key = k
-            prev = nil
-            next = nil
-        }
-        
-        
-        init(_ v: NaiveLRUCacheValue?, _ k: NaiveLRUCacheKey, _ p: DoubleLinkedListNode?, _ n: DoubleLinkedListNode?) {
-            val = v
-            key = k
-            prev = p
-            next = n
-        }
-    }
-    
-    public func removeNode(_ node: DoubleLinkedListNode) {
-        
-        if node === head {
-            head = node.next
-        }
-        
-        if node === tail {
-            tail = node.prev
-        }
-        
-        node.prev?.next = node.next
-        node.next?.prev = node.prev
-        
-        node.prev = nil
-        node.next = nil
-        
-    }
-    
-    public func appendNode(_ node: DoubleLinkedListNode) {
-        
-        if head == nil {
-            head = node
-        }
-        
-        node.prev = tail
-        tail?.next = node
-        tail = node
-    }
-
-    public func clean() {
-        
-        lock.lock()
-        defer { lock.unlock() }
-        
-        while count > max_cache_size, let h = head {
+        while count > cache_size, let h = list.head {
             //删除最旧缓存
-            removeNode(h)
-            map.removeValue(forKey: h.key)
+            list.removeNode(h)
+            valueMap.removeValue(forKey: h.key)
         }
 
     }
