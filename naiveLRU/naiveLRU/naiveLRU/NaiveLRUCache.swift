@@ -16,16 +16,10 @@ import Foundation
 // 所以LRUCache的底层数据结构就是哈希表和双链表，结合这两个数据结构的优点解决两个问题
 // LRU缓存的实现考察，其实是一个很好的综合考察题目
 // 重要的两个基础数据结构都覆盖到了
-
 // 多线层安全的话，有两个解决思路
 // 1、直接用锁，这个是最容易想到的办法。但是一不小心会搞出死锁来，要小心。
-// 例如 setValue(_ value: NaiveLRUCacheValue?, forKey key: NaiveLRUCacheKey) 方法中
-// 如果把上锁动作提到函数进入后第一行，则会出现 guard else 中直接return的情况导致最后的unlock不能执行
-// 这里如果利用defer { lock.unlock() }的方法实现锁操作成对处理，但是函数结尾的clean()就会出现死锁
 // 2、用串行队列再封一层，把所有需要上锁的行为，都通过队列串行化
 // 但可能需要调整代码，以确保一些行为进队列后依旧可以保证是紧挨着直行的，而不会被其他线程插入的任务打断
-// 例如setValue末尾的clean操作
-
 // 站在考察候选人的立场来看，如果候选人可以把LRU理解和实现都搞清楚，基本上可以认为数据结构基础是没有问题的
 
 class NaiveLRUCache<NaiveLRUCacheKey: Hashable, NaiveLRUCacheValue>: BaseCache {
@@ -35,7 +29,6 @@ class NaiveLRUCache<NaiveLRUCacheKey: Hashable, NaiveLRUCacheValue>: BaseCache {
     private var valueMap: [NaiveLRUCacheKey: ValueNodeType] = [:]
     private var list: DLinkedList<ValueNodeType>
 
-    
     init() {
         
         let default_capacity: Int = 5
@@ -113,7 +106,6 @@ class NaiveLRUCache<NaiveLRUCacheKey: Hashable, NaiveLRUCacheValue>: BaseCache {
         list.removeNode(v)
         
         return true
-        
     }
     
     private func clean() {
@@ -126,6 +118,5 @@ class NaiveLRUCache<NaiveLRUCacheKey: Hashable, NaiveLRUCacheValue>: BaseCache {
             list.removeNode(h)
             valueMap.removeValue(forKey: h.key)
         }
-
     }
 }

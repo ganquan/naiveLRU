@@ -71,7 +71,6 @@ class NaiveLFUCache<NaiveLFUCacheKey: Hashable, NaiveLFUCacheValue>: BaseCache {
         }
     }
     
-    
     public func setValue(_ value: NaiveLFUCacheValue, forKey key: NaiveLFUCacheKey) {
         
         if cache_size <= 0 {
@@ -115,7 +114,6 @@ class NaiveLFUCache<NaiveLFUCacheKey: Hashable, NaiveLFUCacheValue>: BaseCache {
         
         if let node = valueMap[key] {
             //存在
-            
             //从旧频率表中移除
             if let oldFreqList = freqMap[node.freq] {
                 oldFreqList.removeNode(node)
@@ -149,8 +147,5 @@ class NaiveLFUCache<NaiveLFUCacheKey: Hashable, NaiveLFUCacheValue>: BaseCache {
                 minFreq += 1
             }
         }
-        
     }
 }
-
-
